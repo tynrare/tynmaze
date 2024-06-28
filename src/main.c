@@ -280,7 +280,7 @@ static void inputs() {
 	action_a = ACTION_NONE;
 	action_b = ACTION_NONE;
 
-	bool gesture_registered = Vector2Length(gesture_delta) > 150;
+	bool gesture_registered = Vector2Length(gesture_delta) > 64;
 	if (gesture_registered && sui_screen_released) {
 		Vector2 dir = Vector2Normalize(gesture_delta);
 		float dot_up = Vector2DotProduct(dir, Vec2Up);
@@ -292,7 +292,7 @@ static void inputs() {
 			} else {
 				action_a = ACTION_LEFT;
 			}
-		} else if (dot_up < 0) {
+		} else if (dot_up > 0) {
 			action_a = ACTION_FORWARD;
 			action_b = ACTION_RUN;
 		} else {
