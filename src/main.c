@@ -26,6 +26,8 @@ TouchPoint touch_points[MAX_TOUCH_POINTS] = {0};
 static int viewport_w = VIEWPORT_W;
 static int viewport_h = VIEWPORT_H;
 
+static const int SAVES_HASH = 0xaa;
+
 // ---
 
 int min(int a, int b) { return a > b ? b : a; }
@@ -63,7 +65,7 @@ bool _draw_help_enabled = false;
 
 Vector3 mapPosition = {-0.0f, 0.0f, -0.0f}; // Set model position
 Vector2 inputDirection = {0.0f, 0.0f};
-Vector2 playerPosition = {1.0f, 1.0f};
+Vector2 playerPosition = {0.0f, 0.0f};
 float playerTurn = 0.0f;
 float cameraRot = 0.0f;
 int steps = 0;
@@ -159,6 +161,7 @@ static void update() {
 	SaveProgress("px", playerPosition.x);
 	SaveProgress("py", playerPosition.y);
 	SaveProgress("turn", playerTurn * 1e4);
+	SaveProgress("hash", SAVES_HASH);
 }
 
 #define SUI_BTN_A                                                              \
@@ -379,10 +382,13 @@ static void dispose() {
 static void init() {
   dispose();
 
-	steps = LoadProgress("steps");
-	playerPosition.x = LoadProgress("px");
-	playerPosition.y = LoadProgress("py");
-	playerTurn = LoadProgress("turn") / 1e4;
+	int saves_hash = LoadProgress("hash");
+	if (saves_hash == SAVES_HASH) {
+		steps = LoadProgress("steps");
+		playerPosition.x = LoadProgress("px") || 1;
+		playerPosition.y = LoadProgress("py") || 1;
+		playerTurn = LoadProgress("turn") / 1e4;
+	}
 
 	InitAudioDevice();
 
