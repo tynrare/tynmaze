@@ -66,6 +66,20 @@ Texture pic_rotate_left = {0};
 Texture pic_rotate_right = {0};
 
 // ---
+
+typedef enum ACTIONS {
+	ACTION_NONE = 0,
+	ACTION_FORWARD,
+	ACTION_BACKWARD,
+	ACTION_LEFT,
+	ACTION_RIGHT,
+	ACTION_RUN
+} ACTION;
+
+Vector2 input_delta = { 0 };
+Vector2 input_pos = { 0 };
+Vector2 gesture_delta = { 0 };
+
 static bool sui_btn_a_down = false;
 static bool sui_btn_b_down = false;
 static bool sui_btn_c_down = false;
@@ -74,6 +88,10 @@ static bool sui_btn_a_pressed = false;
 static bool sui_btn_b_pressed = false;
 static bool sui_btn_c_pressed = false;
 static bool sui_screen_pressed = false;
+static bool sui_screen_released = false;
+
+static ACTION action_a = ACTION_NONE;
+static ACTION action_b = ACTION_NONE;
 
 static void update() {
   if (inputDirection.x) {
@@ -98,7 +116,7 @@ static void update() {
       playerPosition.x = newx;
       playerPosition.y = newy;
     }
-    if (!sui_btn_c_down) {
+    if (action_b != ACTION_RUN) {
       break;
     }
   }
@@ -173,6 +191,8 @@ static void draw() {
   DrawText(TextFormat("Steps: %i", steps), 16 + 2, 16 + 2, 20, BLACK);
   DrawText(TextFormat("Steps: %i", steps), 16, 16, 20, WHITE);
 
+  DrawText(TextFormat("%.2f,%.2f", gesture_delta.x, gesture_delta.y), 16, 46, 20, WHITE);
+
   draw_inputs();
 }
 
@@ -189,6 +209,7 @@ static void inputs_sui_buttons() {
   sui_btn_b_pressed = false;
   sui_btn_c_pressed = false;
   sui_screen_pressed = false;
+  sui_screen_released = false;
 
   for (int i = 0; i < MAX_TOUCH_POINTS; ++i) {
     TouchPoint tp = touch_points[i];
@@ -205,6 +226,10 @@ static void inputs_sui_buttons() {
     sui_btn_c_down = sui_btn_c_down || collide_c;
     if (!sui_screen_down && !(collide_a || collide_b || collide_c)) {
       sui_screen_down = true;
+			if (screen_past_down) {
+				input_delta = Vector2Subtract(input_pos, tp.pos);
+			}
+			input_pos = tp.pos;
     }
   }
 
@@ -212,6 +237,7 @@ static void inputs_sui_buttons() {
 	sui_btn_b_pressed = sui_btn_b_down && !b_past_down;
 	sui_btn_c_pressed = sui_btn_c_down && !c_past_down;
 	sui_screen_pressed = sui_screen_down && !screen_past_down;
+	sui_screen_released = !sui_screen_down && screen_past_down;
 }
 
 static void inputs() {
@@ -236,26 +262,70 @@ static void inputs() {
 
   bool mode_mouse = !tCount;
 
-  sui_screen_pressed = sui_screen_pressed || IsKeyPressed(KEY_SPACE) ||
+  sui_screen_released = sui_screen_released || IsKeyPressed(KEY_SPACE) ||
                        IsKeyPressed(KEY_W) ||
                        (mode_mouse && IsMouseButtonPressed(MOUSE_BUTTON_LEFT));
   sui_btn_a_pressed = sui_btn_a_pressed || IsKeyPressed(KEY_A);
   sui_btn_b_pressed = sui_btn_b_pressed || IsKeyPressed(KEY_D);
   sui_btn_c_down = sui_btn_c_down || IsKeyDown(KEY_LEFT_SHIFT);
 
-
   inputDirection.x = 0.0f;
   inputDirection.y = 0.0f;
 
-  if (sui_screen_pressed) {
+	action_a = ACTION_NONE;
+	action_b = ACTION_NONE;
+
+	bool gesture_registered = Vector2Length(gesture_delta) > 32;
+	if (gesture_registered && sui_screen_released) {
+		Vector2 dir = Vector2Normalize(gesture_delta);
+		float dot_up = Vector2DotProduct(dir, Vec2Up);
+		float dot_right = Vector2DotProduct(dir, Vec2Right);
+		TraceLog(LOG_INFO, TextFormat("%.4f,%.4f", dot_up, dot_right));
+		if (fabs(dot_up) < 0.5) {
+			if (dot_right < 0) {
+				action_a = ACTION_RIGHT;
+			} else {
+				action_a = ACTION_LEFT;
+			}
+		} else if (dot_up > 0) {
+			action_a = ACTION_FORWARD;
+			action_b = ACTION_RUN;
+		} else {
+			action_a = ACTION_BACKWARD;
+		}
+	} else {
+		if (sui_screen_released) {
+			action_a = ACTION_FORWARD;
+		} else if (sui_btn_a_pressed) {
+			action_a = ACTION_LEFT;
+		} else if (sui_btn_b_pressed) {
+			action_a = ACTION_RIGHT;
+		} else if (IsKeyPressed(KEY_S)) {
+			action_a = ACTION_BACKWARD;
+		}
+	}
+
+  if (action_a == ACTION_FORWARD) {
     inputDirection.x = 1.0f;
-  } else if (IsKeyPressed(KEY_S)) {
+  } else if (action_a == ACTION_BACKWARD) {
     inputDirection.x = -1.0f;
-  } else if (sui_btn_a_pressed) {
+  } else if (action_a == ACTION_LEFT) {
     inputDirection.y = 1.0f;
-  } else if (sui_btn_b_pressed) {
+  } else if (action_a == ACTION_RIGHT) {
     inputDirection.y = -1.0f;
   }
+
+	if (sui_btn_c_down) {
+		action_b = ACTION_RUN;
+	}
+
+	if (sui_screen_released) {
+		gesture_delta.x = 0;
+		gesture_delta.y = 0;
+	} else if (sui_screen_down) {
+		gesture_delta.x += input_delta.x;
+		gesture_delta.y += input_delta.y;
+	}
 }
 
 // --- flow
