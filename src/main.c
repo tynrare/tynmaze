@@ -385,8 +385,10 @@ static void init() {
 	int saves_hash = LoadProgress("hash");
 	if (saves_hash == SAVES_HASH) {
 		steps = LoadProgress("steps");
-		playerPosition.x = LoadProgress("px") || 1;
-		playerPosition.y = LoadProgress("py") || 1;
+		playerPosition.x = LoadProgress("px");
+		playerPosition.y = LoadProgress("py");
+		playerPosition.x = playerPosition.x ? playerPosition.x : 1;
+		playerPosition.y = playerPosition.y ? playerPosition.y : 1;
 		playerTurn = LoadProgress("turn") / 1e4;
 	}
 
