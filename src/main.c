@@ -285,7 +285,6 @@ static void inputs() {
 		Vector2 dir = Vector2Normalize(gesture_delta);
 		float dot_up = Vector2DotProduct(dir, Vec2Up);
 		float dot_right = Vector2DotProduct(dir, Vec2Right);
-		TraceLog(LOG_INFO, TextFormat("%.4f,%.4f", dot_up, dot_right));
 		if (fabs(dot_up) < 0.5) {
 			if (dot_right < 0) {
 				action_a = ACTION_RIGHT;

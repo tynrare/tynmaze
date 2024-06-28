@@ -16,7 +16,7 @@ var Module = typeof Module != 'undefined' ? Module : {};
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpi905lwfx.js
+// include: /tmp/tmp1435v4qq.js
 
   if (!Module.expectedDataFileDownloads) {
     Module.expectedDataFileDownloads = 0;
@@ -192,11 +192,11 @@ Module['FS_createPath']("/res", "pic", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/res/coin.wav", "start": 0, "end": 31789, "audio": 1}, {"filename": "/res/cubicmap_atlas.png", "start": 31789, "end": 34288}, {"filename": "/res/lighting.fs", "start": 34288, "end": 36209}, {"filename": "/res/lighting.vs", "start": 36209, "end": 37787}, {"filename": "/res/maze-0.png", "start": 37787, "end": 45868}, {"filename": "/res/pic/forwards.png", "start": 45868, "end": 65859}, {"filename": "/res/pic/rotate.png", "start": 65859, "end": 94501}, {"filename": "/res/pic/rotate_left.png", "start": 94501, "end": 111870}, {"filename": "/res/pic/rotate_right.png", "start": 111870, "end": 129148}, {"filename": "/res/sound.wav", "start": 129148, "end": 150338, "audio": 1}, {"filename": "/res/tex0.png", "start": 150338, "end": 192404}, {"filename": "/res/tex1.png", "start": 192404, "end": 193359}], "remote_package_size": 193359});
+    loadPackage({"files": [{"filename": "/res/coin.wav", "start": 0, "end": 31789, "audio": 1}, {"filename": "/res/cubicmap_atlas.png", "start": 31789, "end": 37009}, {"filename": "/res/lighting.fs", "start": 37009, "end": 38930}, {"filename": "/res/lighting.vs", "start": 38930, "end": 40508}, {"filename": "/res/maze-0.png", "start": 40508, "end": 48589}, {"filename": "/res/pic/forwards.png", "start": 48589, "end": 68580}, {"filename": "/res/pic/rotate.png", "start": 68580, "end": 97222}, {"filename": "/res/pic/rotate_left.png", "start": 97222, "end": 114591}, {"filename": "/res/pic/rotate_right.png", "start": 114591, "end": 131869}, {"filename": "/res/sound.wav", "start": 131869, "end": 153059, "audio": 1}, {"filename": "/res/tex0.png", "start": 153059, "end": 195125}, {"filename": "/res/tex1.png", "start": 195125, "end": 196080}], "remote_package_size": 196080});
 
   })();
 
-// end include: /tmp/tmpi905lwfx.js
+// end include: /tmp/tmp1435v4qq.js
 
 
 // Sometimes an existing Module object exists with properties
