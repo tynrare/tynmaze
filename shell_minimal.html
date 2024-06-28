@@ -89,6 +89,18 @@
 		</script>
 
     <script type='text/javascript'>
+      // Save user progress
+      function saveProgress(key, value) {
+          localStorage.setItem(key, value);
+      }
+
+      // Load user progress
+      function loadProgress(key) {
+          const n = Number(localStorage.getItem(key) ?? 0);
+          return isNaN(n) ? 0 : n;
+      }
+    </script>
+    <script type='text/javascript'>
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');

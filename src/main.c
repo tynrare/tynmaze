@@ -39,6 +39,24 @@ float rlerp(float a, float b, float t) {
   return atan2f(SN, CS);
 }
 
+void SaveProgress(const char *key, const int value) {
+#if defined(PLATFORM_WEB)
+    char script[256];
+    snprintf(script, sizeof(script), "saveProgress('%s', '%d');", key, value);
+    emscripten_run_script(script);
+#endif
+}
+
+const int LoadProgress(const char *key) {
+#if defined(PLATFORM_WEB)
+    char script[256];
+    snprintf(script, sizeof(script), "loadProgress('%s');", key);
+    return emscripten_run_script_int(script);
+#else
+		return 0;
+#endif
+}
+
 // ---
 
 bool _draw_help_enabled = false;
@@ -76,6 +94,12 @@ typedef enum ACTIONS {
 	ACTION_RIGHT,
 	ACTION_RUN
 } ACTION;
+
+typedef enum {
+    STORAGE_POSITION_SCORE = 0,
+    STORAGE_POSITION_POS_X,
+    STORAGE_POSITION_POS_Y
+} StorageData;
 
 Vector2 input_delta = { 0 };
 Vector2 input_pos = { 0 };
@@ -130,6 +154,11 @@ static void update() {
   camera.target.x = camera.position.x + sinf(cameraRot);
   camera.target.y = camera.position.y;
   camera.target.z = camera.position.z + cosf(cameraRot);
+
+	SaveProgress("steps", steps);
+	SaveProgress("px", playerPosition.x);
+	SaveProgress("py", playerPosition.y);
+	SaveProgress("turn", playerTurn * 1e4);
 }
 
 #define SUI_BTN_A                                                              \
@@ -192,8 +221,6 @@ static void draw() {
 
   DrawText(TextFormat("Steps: %i", steps), 16 + 2, 16 + 2, 20, BLACK);
   DrawText(TextFormat("Steps: %i", steps), 16, 16, 20, WHITE);
-
-  DrawText(TextFormat("%.2f,%.2f", gesture_delta.x, gesture_delta.y), 16, 46, 20, WHITE);
 
   draw_inputs();
 }
@@ -352,6 +379,11 @@ static void dispose() {
 static void init() {
   dispose();
 
+	steps = LoadProgress("steps");
+	playerPosition.x = LoadProgress("px");
+	playerPosition.y = LoadProgress("py");
+	playerTurn = LoadProgress("turn") / 1e4;
+
 	InitAudioDevice();
 
   shader = LoadShader(RES_PATH "lighting.vs", RES_PATH "lighting.fs");
@@ -390,6 +422,8 @@ static void init() {
   // Get map image data to be used for collision detection
   mapPixels = LoadImageColors(imMap);
   UnloadImage(imMap); // Unload image from RAM
+
+	// --- load
 }
 
 // --- system
