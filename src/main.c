@@ -65,7 +65,7 @@ bool _draw_help_enabled = false;
 
 Vector3 mapPosition = {-0.0f, 0.0f, -0.0f}; // Set model position
 Vector2 inputDirection = {0.0f, 0.0f};
-Vector2 playerPosition = {0.0f, 0.0f};
+Vector2 playerPosition = {1.0f, 1.0f};
 float playerTurn = 0.0f;
 float cameraRot = 0.0f;
 int steps = 0;
