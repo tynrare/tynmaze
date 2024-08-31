@@ -1,13 +1,18 @@
 // @tynroar
 
 #include "dust.h"
-#include "root.h"
+#include "main.h"
 #include <math.h>
 #include <raylib.h>
 #include <raymath.h>
 #include <stdio.h>
 // #include <GL/gl.h>
 #include "rlgl.h"
+
+#define __scut
+#define _smaze
+#define серп __scut
+#define молот __scut
 
 #define RLIGHTS_IMPLEMENTATION
 #include "external/rlights.h"
@@ -172,6 +177,9 @@ static void update() {
   (Rectangle) { viewport_w - 16 - 64, viewport_h - 16 - 64, 64, 64 }
 
 static void draw_inputs() {
+#if defined(серп)
+  return;
+#endif
   Rectangle sba = SUI_BTN_A;
   Rectangle sbb = SUI_BTN_B;
   Rectangle sbc = SUI_BTN_C;
@@ -222,8 +230,15 @@ static void draw() {
     DrawModel(model, mapPosition, 1.0f, WHITE); // Draw maze map
   EndMode3D();
 
+#ifndef серп
   DrawText(TextFormat("Steps: %i", steps), 16 + 2, 16 + 2, 20, BLACK);
   DrawText(TextFormat("Steps: %i", steps), 16, 16, 20, WHITE);
+#endif
+
+#ifdef молот
+  DrawText(TextFormat("с: %i", steps), 16, 16, 20, WHITE);
+#endif
+
 
   draw_inputs();
 }
