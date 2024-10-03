@@ -16,7 +16,7 @@ var Module = typeof Module != 'undefined' ? Module : {};
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpfy6_5_t9.js
+// include: /tmp/tmp7ud_3g81.js
 
   if (!Module.expectedDataFileDownloads) {
     Module.expectedDataFileDownloads = 0;
@@ -192,11 +192,11 @@ Module['FS_createPath']("/res", "pic", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/res/coin.wav", "start": 0, "end": 31789, "audio": 1}, {"filename": "/res/cubicmap_atlas.png", "start": 31789, "end": 33769}, {"filename": "/res/cutto.png", "start": 33769, "end": 36376}, {"filename": "/res/dd.png", "start": 36376, "end": 41596}, {"filename": "/res/lighting.fs", "start": 41596, "end": 43517}, {"filename": "/res/lighting.vs", "start": 43517, "end": 45095}, {"filename": "/res/maze-0.png", "start": 45095, "end": 53176}, {"filename": "/res/minijump.wav", "start": 53176, "end": 74366, "audio": 1}, {"filename": "/res/pic/forwards.png", "start": 74366, "end": 94357}, {"filename": "/res/pic/rotate.png", "start": 94357, "end": 122999}, {"filename": "/res/pic/rotate_left.png", "start": 122999, "end": 140368}, {"filename": "/res/pic/rotate_right.png", "start": 140368, "end": 157646}, {"filename": "/res/sound.wav", "start": 157646, "end": 205332, "audio": 1}, {"filename": "/res/tex0.png", "start": 205332, "end": 247398}, {"filename": "/res/tex1.png", "start": 247398, "end": 248353}], "remote_package_size": 248353});
+    loadPackage({"files": [{"filename": "/res/coin.wav", "start": 0, "end": 31789, "audio": 1}, {"filename": "/res/cubicmap_atlas.png", "start": 31789, "end": 32552}, {"filename": "/res/cutto.png", "start": 32552, "end": 35159}, {"filename": "/res/dd.png", "start": 35159, "end": 40379}, {"filename": "/res/lighting.fs", "start": 40379, "end": 42300}, {"filename": "/res/lighting.vs", "start": 42300, "end": 43878}, {"filename": "/res/maze-0.png", "start": 43878, "end": 51959}, {"filename": "/res/minijump.wav", "start": 51959, "end": 73149, "audio": 1}, {"filename": "/res/pic/forwards.png", "start": 73149, "end": 93140}, {"filename": "/res/pic/rotate.png", "start": 93140, "end": 121782}, {"filename": "/res/pic/rotate_left.png", "start": 121782, "end": 139151}, {"filename": "/res/pic/rotate_right.png", "start": 139151, "end": 156429}, {"filename": "/res/sound.wav", "start": 156429, "end": 204115, "audio": 1}, {"filename": "/res/tex0.png", "start": 204115, "end": 246181}, {"filename": "/res/tex1.png", "start": 246181, "end": 247136}], "remote_package_size": 247136});
 
   })();
 
-// end include: /tmp/tmpfy6_5_t9.js
+// end include: /tmp/tmp7ud_3g81.js
 
 
 // Sometimes an existing Module object exists with properties
